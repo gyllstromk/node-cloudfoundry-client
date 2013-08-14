@@ -28,6 +28,10 @@ describe('apps', function () {
         instances: 1
     };
 
+    before(function () {
+        require('./nock');
+    });
+
     it('get starts empty', function (done) {
         client.apps.get(function (err, apps) {
             assert(! err, err);

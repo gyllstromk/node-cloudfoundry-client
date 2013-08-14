@@ -8,8 +8,6 @@ describe('services', function () {
     var client      = require('../client'),
         serviceName = 'test';
 
-    require('./nock');
-
     var service_ = {
         name: serviceName,
         type: 'document',
@@ -32,6 +30,10 @@ describe('services', function () {
         service.meta = Object.select(service.meta, 'tags', 'version');
         return service;
     };
+
+    before(function () {
+        require('./nock');
+    });
 
     it('get starts empty', function (done) {
         client.services.get(function (err, services) {

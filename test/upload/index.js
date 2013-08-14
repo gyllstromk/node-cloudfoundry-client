@@ -9,8 +9,6 @@ describe('apps', function () {
     var client      = require('../client'),
         appName     = 'testapp';
 
-    require('./nock');
-
     var app = {
         name: appName,
         staging: {
@@ -28,6 +26,10 @@ describe('apps', function () {
 
         instances: 1
     };
+
+    before(function () {
+        require('./nock');
+    });
 
     before(function (done) {
         client.apps.delete(app.name, function (err) {
