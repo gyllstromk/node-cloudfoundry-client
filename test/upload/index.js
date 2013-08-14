@@ -5,7 +5,7 @@ require('sugar');
 
 var assert = require('assert');
 
-describe('apps', function () {
+describe('upload', function () {
     var client      = require('../client'),
         appName     = 'testapp';
 
@@ -17,7 +17,7 @@ describe('apps', function () {
         },
 
         uris: [
-            appName + '.ourhost.com'
+            appName + '.' + client.host
         ],
 
         resources: {

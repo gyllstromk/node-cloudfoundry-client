@@ -9,3 +9,5 @@ var client = module.exports = new VcapClient({
     email:    email,
     password: password
 });
+
+client.host = host;
