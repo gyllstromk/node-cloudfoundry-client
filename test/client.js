@@ -1,4 +1,4 @@
-var VcapClient = require('../lib/vcap');
+var VcapClient = require('../index');
 
 var host     = 'ourhost.com',
     email    = 'me@me.com',
