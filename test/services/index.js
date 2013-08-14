@@ -10,6 +10,29 @@ describe('vcap', function () {
 
     require('./nock');
 
+    var service_ = {
+        name: serviceName,
+        type: 'document',
+        vendor: 'mongodb',
+        provider: 'core',
+        version: '2.4',
+        tier: 'free',
+        properties: {},
+        meta: {
+            tags: [ 'nosql', 'document' ],
+            version: 1
+        }
+    };
+
+    var clean = function (service) {
+        /**
+         * Removes timestamp info from service for comparisons.
+         */
+
+        service.meta = Object.select(service.meta, 'tags', 'version');
+        return service;
+    }
+
     describe('services', function () {
         it('get starts empty', function (done) {
             client.services.get(function (err, services) {
@@ -38,23 +61,8 @@ describe('vcap', function () {
         it('get service by name returns service', function (done) {
             client.services.get(serviceName, function (err, service) {
                 assert(! err, err);
-                var service_ = {
-                    name: serviceName,
-                    type: 'document',
-                    vendor: 'mongodb',
-                    provider: 'core',
-                    version: '2.4',
-                    tier: 'free',
-                    properties: {},
-                    meta: {
-                        tags: [ 'nosql', 'document' ],
-                        version: 1
-                    }
-                };
 
-                service.meta = Object.select(service.meta, 'tags', 'version');
-
-                assert.deepEqual(service, service_);
+                assert.deepEqual(clean(service), service_);
                 done();
             });
         });
@@ -62,6 +70,7 @@ describe('vcap', function () {
         it('get services includes new service', function (done) {
             client.services.get(function (err, services) {
                 assert(! err, err);
+                assert.deepEqual(services.map(clean), [ service_ ]);
                 done();
             });
         });
@@ -80,7 +89,7 @@ describe('vcap', function () {
             });
         });
 
-        it('get starts empty', function (done) {
+        it('get returns empty', function (done) {
             client.services.get(function (err, services) {
                 assert(! err, err);
                 assert.deepEqual(services, []);
