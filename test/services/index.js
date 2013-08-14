@@ -31,7 +31,7 @@ describe('vcap', function () {
 
         service.meta = Object.select(service.meta, 'tags', 'version');
         return service;
-    }
+    };
 
     describe('services', function () {
         it('get starts empty', function (done) {
