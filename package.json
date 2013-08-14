@@ -1,5 +1,5 @@
 {
-  "name": "cf",
+  "name": "cloudfoundry-client",
   "version": "0.0.0",
   "description": "Cloudfoundry client",
   "main": "index.js",
