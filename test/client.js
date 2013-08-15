@@ -1,4 +1,4 @@
-var VcapClient = require('../lib/vcap');
+var VcapClient = require('../index');
 
 var host     = 'ourhost.com',
     email    = 'me@me.com',
@@ -9,3 +9,5 @@ var client = module.exports = new VcapClient({
     email:    email,
     password: password
 });
+
+client.host = host;
