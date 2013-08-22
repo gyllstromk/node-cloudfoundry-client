@@ -5,11 +5,10 @@ require('sugar');
 var assert = require('assert');
 
 describe('services', function () {
-    var client      = require('../client'),
-        serviceName = 'test';
+    var client = require('../client');
 
     var service_ = {
-        name: serviceName,
+        name: 'test',
         type: 'document',
         vendor: 'mongodb',
         provider: 'core',
@@ -35,6 +34,12 @@ describe('services', function () {
         require('./nock');
     });
 
+//     before(function (done) {
+//         client.services.delete(service_.name, function () {
+//             done();
+//         });
+//     });
+
     it('get starts empty', function (done) {
         client.services.get(function (err, services) {
             assert(! err, err);
@@ -44,23 +49,21 @@ describe('services', function () {
     });
 
     it('get service by name is error', function (done) {
-        client.services.get(serviceName, function (err, services) {
+        client.services.get(service_.name, function (err, services) {
             assert(err instanceof errors.NotFoundError);
             done();
         });
     });
 
     it('create service succeeds', function (done) {
-        client.services.create(serviceName, 'mongodb', '2.4', 'free',
-            function (err) {
-
+        client.services.create(Object.select(service_, 'name', 'tier', 'vendor', 'version'), function (err) {
             assert(! err, err);
             done();
         });
     });
 
     it('get service by name returns service', function (done) {
-        client.services.get(serviceName, function (err, service) {
+        client.services.get(service_.name, function (err, service) {
             assert(! err, err);
 
             assert.deepEqual(clean(service), service_);
@@ -77,14 +80,14 @@ describe('services', function () {
     });
 
     it('delete service', function (done) {
-        client.services.delete(serviceName, function (err) {
+        client.services.delete(service_.name, function (err) {
             assert(! err, err);
             done();
         });
     });
 
     it('delete non-existent service fails', function (done) {
-        client.services.delete(serviceName, function (err) {
+        client.services.delete(service_.name, function (err) {
             assert(err instanceof errors.NotFoundError);
             done();
         });
@@ -99,7 +102,7 @@ describe('services', function () {
     });
 
     it('get service by name is error', function (done) {
-        client.services.get(serviceName, function (err, services) {
+        client.services.get(service_.name, function (err, services) {
             assert(err instanceof errors.NotFoundError);
             done();
         });
