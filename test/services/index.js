@@ -56,7 +56,8 @@ describe('services', function () {
     });
 
     it('create service succeeds', function (done) {
-        client.services.create(Object.select(service_, 'name', 'tier', 'vendor', 'version'), function (err) {
+        client.services.create(Object.select(service_, 'name', 'tier',
+                'vendor', 'version'), function (err) {
             assert(! err, err);
             done();
         });

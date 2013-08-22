@@ -27,7 +27,7 @@
     "async": "~0.2.9"
   },
   "devDependencies": {
-    "jshint": "~2.1.9",
+    "jshinthelper": "git+ssh://git@github.com:gyllstromk/jshinthelper.git",
     "nock": "~0.22.1",
     "mocha": "~1.12.0"
   }
