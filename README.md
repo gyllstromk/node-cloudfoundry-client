@@ -23,16 +23,25 @@ Interaction is accomplished via `client.<endpoint>.<method>`. (see examples belo
 
 ## Creating client
 
+Authentication can be done via either token or login. If, however, the token
+expires, the login info will be used to acquire a new token. Hence, long
+running processes should consider the use of email/password.
+
 ```js
 var Client = require('cloudfoundry-client');
 
 var client = new Client({
-    host: 'pivotal.io',
-    token: 'bearer XYZ'
+    host:  'pivotal.io',
+    token: 'XYZ',        // optional if email/password is provided
+    email: 'my email'    // optional if token is provided
+    password: 'password' // optional if token is provided
 });
 ```
 
 ## Getting from collections
+
+Paging is accomplished automatically. For example, a request for `apps` will
+return all apps, not just those returned on the first page.
 
 For example, to get all apps:
 
