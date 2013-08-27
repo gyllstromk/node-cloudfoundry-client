@@ -32,6 +32,7 @@ var Client = require('cloudfoundry-client');
 
 var client = new Client({
     host:  'pivotal.io',
+    protocol: 'https:',
     token: 'XYZ',        // optional if email/password is provided
     email: 'my email'    // optional if token is provided
     password: 'password' // optional if token is provided
