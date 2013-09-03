@@ -94,5 +94,38 @@ describe('collections', function () {
                 assert(! err, err);
             });
         });
+
+        describe('delete', function () {
+            it('basic', function (done) {
+                requests.once('request', function (object) {
+                    assert.deepEqual(object, {
+                        endpoint: collectionName + '/1',
+                        method:   'DELETE'
+                    });
+
+                    done();
+                });
+
+                collection.delete(1, function (err, result_) {
+                    assert(! err, err);
+                });
+            });
+
+            it('with query', function (done) {
+                requests.once('request', function (object) {
+                    assert.deepEqual(object, {
+                        endpoint: collectionName + '/1',
+                        method:   'DELETE',
+                        query:    { recursive: true }
+                    });
+
+                    done();
+                });
+
+                collection.delete(1, true, function (err, result_) {
+                    assert(! err, err);
+                });
+            });
+        });
     });
 });
