@@ -88,15 +88,14 @@ describe('collections', function () {
             it('object has inner1.put methods', function (done) {
                 requests.once('request', function (object) {
                     assert.deepEqual(object, {
-                        endpoint: collectionName + '/1/inner1',
+                        endpoint: collectionName + '/1/inner1/value',
                         method:   'PUT',
-                        json: { field: 'value' }
                     });
 
                     done();
                 });
 
-                result.inner1.put({ field: 'value' }, function (err, results) {
+                result.inner1.put('value', function (err, results) {
                     assert(! err, err);
                 });
             });
