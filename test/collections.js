@@ -11,7 +11,11 @@ describe('collections', function () {
         requestCallback(object, callback);
     };
 
-    var object = { metadata: { guid: 1 }};
+    var makeObject = function (guid) {
+        return { metadata: { guid: guid }};
+    };
+
+    var object = makeObject(1);
 
     var requestCallback,
         collectionName = 'collection',
@@ -142,6 +146,38 @@ describe('collections', function () {
 
             collection.delete(1, true, function (err, result_) {
                 assert(! err, err);
+            });
+        });
+    });
+
+    describe('paging', function () {
+        it('pages when result has next_url', function (done) {
+            var iteration = 0;
+
+            requestCallback = function (object_, callback) {
+                iteration += 1;
+
+                assert.deepEqual(object_, {
+                    endpoint: 'collection',
+                    page:     iteration,
+                    method:   'GET'
+                });
+
+                var response = { resources: [ makeObject(iteration) ] };
+
+                if (iteration < 5) {
+                    response.next_url = 'x';
+                }
+
+                callback(null, response);
+            };
+
+            collection.get(function (err, results) {
+                assert(! err, err);
+                assert.deepEqual(results.map(function (each) {
+                    return each.metadata.guid;
+                }), [ 1, 2, 3, 4, 5 ]);
+                done();
             });
         });
     });
