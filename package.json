@@ -1,6 +1,6 @@
 {
   "name": "cloudfoundry-client",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Cloudfoundry client",
   "main": "index.js",
   "scripts": {
