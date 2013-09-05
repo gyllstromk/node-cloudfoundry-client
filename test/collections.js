@@ -137,7 +137,7 @@ describe('collections', function () {
                 assert.deepEqual(object, {
                     endpoint: collectionName + '/1',
                     method:   'DELETE',
-                    query:    { recursive: true }
+                    qs:       { recursive: true }
                 });
 
                 done();

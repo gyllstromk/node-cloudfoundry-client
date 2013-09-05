@@ -89,7 +89,7 @@ describe('request', function () {
         });
 
         it('page set', function () {
-            assert.deepEqual(request_.query, { page: 2 });
+            assert.deepEqual(request_.qs, { page: 2 });
             assert(! request_.page);
         });
     });
