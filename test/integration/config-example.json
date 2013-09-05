@@ -1,0 +1,5 @@
+{
+    "host": "<host>",
+    "token": "<token: can copy from ~/.cf/tokens.yml>",
+    "orgName": "<name of test organization. Should not already exist>
+}
