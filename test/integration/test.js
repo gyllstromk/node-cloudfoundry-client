@@ -2,7 +2,13 @@ var Client = require('../..');
 
 var async  = require('async');
 
-var assert = require('assert');
+var assert = require('assert'),
+    util   = require('util');
+
+
+assert.noError = function (err) {
+    assert(! err, util.inspect(err));
+};
 
 describe('integration tests', function () {
     var client,
@@ -38,7 +44,7 @@ describe('integration tests', function () {
 
         it('create', function (done) {
             client.orgs.create({ name: orgName }, function (err, org) {
-                assert(! err, err);
+                assert.noError(err);
                 guid = org.metadata.guid;
                 assert.equal(org.entity.name, orgName);
                 done();
@@ -47,7 +53,7 @@ describe('integration tests', function () {
 
         it('get all', function (done) {
             client.orgs.get(function (err, orgs) {
-                assert(! err, err);
+                assert.noError(err);
                 assert(orgs.find(function (each) {
                     return each.entity.name === orgName;
                 }));
@@ -57,7 +63,7 @@ describe('integration tests', function () {
 
         it('get by name', function (done) {
             client.orgs.getByName(orgName, function (err, org) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(org.entity.name, orgName);
                 done();
             });
@@ -65,7 +71,7 @@ describe('integration tests', function () {
 
         it('get by guid', function (done) {
             client.orgs.get(guid, function (err, org) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(org.entity.name, orgName);
                 done();
             });
@@ -73,7 +79,7 @@ describe('integration tests', function () {
 
         it('delete', function (done) {
             client.orgs.delete(guid, function (err, org) {
-                assert(! err, err);
+                assert.noError(err);
                 done();
             });
         });
@@ -86,7 +92,7 @@ describe('integration tests', function () {
 
         before(function (done) {
             client.orgs.create({ name: orgName }, function (err, org) {
-                assert(! err, err);
+                assert.noError(err);
                 orgGuid = org.metadata.guid;
                 done();
             });
@@ -101,7 +107,7 @@ describe('integration tests', function () {
                 name: spaceName,
                 organization_guid: orgGuid
             }, function (err, space) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(space.entity.name, spaceName);
                 guid = space.metadata.guid;
                 
@@ -111,7 +117,7 @@ describe('integration tests', function () {
 
         it('get all', function (done) {
             client.spaces.get(function (err, spaces) {
-                assert(! err, err);
+                assert.noError(err);
                 assert(spaces.find(function (each) {
                     return each.entity.name === spaceName;
                 }));
@@ -122,7 +128,7 @@ describe('integration tests', function () {
 
         it('get by name', function (done) {
             client.spaces.getByName(spaceName, function (err, space) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(space.entity.name, spaceName);
                 done();
             });
@@ -130,7 +136,7 @@ describe('integration tests', function () {
 
         it('get by guid', function (done) {
             client.spaces.get(guid, function (err, space) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(space.entity.name, spaceName);
                 done();
             });
@@ -138,7 +144,7 @@ describe('integration tests', function () {
 
         it('delete', function (done) {
             client.spaces.delete(guid, function (err, space) {
-                assert(! err, err);
+                assert.noError(err);
                 done();
             });
         });
@@ -153,7 +159,7 @@ describe('integration tests', function () {
 
         before(function (done) {
             client.orgs.create({ name: orgName }, function (err, org) {
-                assert(! err, err);
+                assert.noError(err);
 
                 orgGuid = org.metadata.guid;
 
@@ -161,7 +167,7 @@ describe('integration tests', function () {
                     name:              spaceName,
                     organization_guid: orgGuid
                 }, function (err, space) {
-                    assert(! err, err);
+                    assert.noError(err);
                     spaceGuid = space.metadata.guid;
                     
                     done();
@@ -180,7 +186,7 @@ describe('integration tests', function () {
                 name:       appName,
                 space_guid: spaceGuid
             }, function (err, app) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(app.entity.name, appName);
                 guid = app.metadata.guid;
                 
@@ -190,7 +196,7 @@ describe('integration tests', function () {
 
         it('get all', function (done) {
             client.apps.get(function (err, apps) {
-                assert(! err, err);
+                assert.noError(err);
                 assert(apps.find(function (each) {
                     return each.entity.name === appName;
                 }));
@@ -201,7 +207,7 @@ describe('integration tests', function () {
 
         it('get by name', function (done) {
             client.apps.getByName(appName, function (err, app) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(app.entity.name, appName);
                 done();
             });
@@ -209,7 +215,7 @@ describe('integration tests', function () {
 
         it('get by guid', function (done) {
             client.apps.get(guid, function (err, app) {
-                assert(! err, err);
+                assert.noError(err);
                 assert.equal(app.entity.name, appName);
                 done();
             });
@@ -217,7 +223,7 @@ describe('integration tests', function () {
 
         it('delete', function (done) {
             client.apps.delete(guid, function (err, app) {
-                assert(! err, err);
+                assert.noError(err);
                 done();
             });
         });
