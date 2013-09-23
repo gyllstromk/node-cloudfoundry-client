@@ -36,11 +36,15 @@ describe('request', function () {
             callback(null, { statusCode: 200 });
         };
 
-        before(function (done) {
-            getRequestParams({
+        it('does not alter request object', function (done) {
+            var obj = {
                 endpoint: 'collection',
-            }, function (request) {
+            };
+
+            getRequestParams(obj, function (request) {
                 request_ = request;
+                assert(obj.endpoint);
+                assert(! obj.url);
                 done();
             });
         });
