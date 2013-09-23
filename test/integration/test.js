@@ -37,8 +37,10 @@ describe('integration tests', function () {
             orgName = config.orgName;
 
             client = new Client({
-                host: config.host,
-                token: config.token
+                host:     config.host,
+                token:    config.token,
+                email:    config.email,
+                password: config.password
             });
 
             done();
