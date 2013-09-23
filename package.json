@@ -1,11 +1,12 @@
 {
   "name": "cloudfoundry-client",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "Cloudfoundry client",
   "main": "index.js",
   "scripts": {
     "pretest": "./node_modules/.bin/jshint .",
-    "test": "./node_modules/.bin/mocha --recursive ./test -R spec"
+    "test": "./node_modules/.bin/mocha ./test -R spec",
+    "integration-tests": "./node_modules/.bin/mocha ./test/integration/test.js -R spec --bail --timeout 5s"
   },
   "repository": {
     "type": "git",
