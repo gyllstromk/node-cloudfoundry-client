@@ -45,6 +45,30 @@ describe('collections', function () {
             });
         });
 
+        it('get by query', function (done) {
+            requests.once('request', function (object) {
+                assert.deepEqual(object, {
+                    endpoint: collectionName,
+                    page:     1,
+                    method:   'GET',
+                    qs:       { q: 'name:the_name;organization_guid:org_guid' }
+                });
+
+                done();
+            });
+
+            requestCallback = function (object_, callback) {
+                callback(null, [ object ]);
+            };
+
+            collection.get({ name: 'the_name', organization_guid: 'org_guid' },
+                function (err, result) {
+
+                assert(! err, err);
+                assert.deepEqual(Object.select(result[0], 'metadata'), object);
+            });
+        });
+
         describe('single', function () {
             var result;
 
