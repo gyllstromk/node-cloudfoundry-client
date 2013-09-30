@@ -96,7 +96,7 @@ client.apps.get(guid).serviceInstances.get(function (err, serviceInstances) {
 
 Get logs:
 
-client.apps.get(guid).instances.get(0).logs(function (err, logs) {
+client.apps.get(guid).instances.get(0).logs.get(function (err, logs) {
     // check err ..
     console.log('logs for instance 0 are:', log);
 });
