@@ -173,6 +173,39 @@ describe('collections', function () {
         });
     });
 
+    describe('complex inner collection', function () {
+        before(function () {
+            collection = factory.create(collectionName, {
+                name: { type: 'string' }
+            }, [
+                    'inner1',
+                    {
+                        method: 'inner2',
+                        nested: [{
+                            method: 'inner2inner2'
+                        }]
+                    }
+                ]
+            );
+        });
+
+        it('get complex inner', function (done) {
+            requests.once('request', function (object) {
+                assert.deepEqual(object, {
+                    endpoint: 'collection/0/inner2',
+                    page: 1,
+                    method: 'GET'
+                });
+
+                done();
+            });
+
+            collection.get(0).inner2.get(function (err, result_) {
+                assert(! err, err);
+            });
+        });
+    });
+
     describe('paging', function () {
         it('pages when result has next_url', function (done) {
             var iteration = 0;
