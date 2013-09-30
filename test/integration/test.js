@@ -274,7 +274,9 @@ describe('integration tests', function () {
         });
 
         it('get logs', function (done) {
-            client.apps.get(guid).instances.get(0).logs.get(function (err, logs) {
+            client.apps.get(guid).instances.get(0).logs.get(
+                function (err, logs) {
+
                 // TODO: can't really test logs until we actually upload and
                 // start apps, since logs will not be produced. Here we simply
                 // check for the error we expect in the context of getting logs
