@@ -189,7 +189,15 @@ describe('collections', function () {
                         method: 'inner2',
                         nested: [{
                             method: 'inner2inner2'
-                        }]
+                        }],
+
+                        resultsMap: function (results) {
+                            results.each(function (each, index) {
+                                each.fake = index;
+                            });
+
+                            return results;
+                        }
                     }
                 ]
             );
@@ -206,8 +214,10 @@ describe('collections', function () {
                 done();
             });
 
-            collection.get(0).inner2.get(function (err, result_) {
+            collection.get(0).inner2.get(function (err, results) {
                 assert(! err, err);
+                assert.equal(results[0].fake, 0); // proves resultsMap was
+                                                  // executed
             });
         });
     });
