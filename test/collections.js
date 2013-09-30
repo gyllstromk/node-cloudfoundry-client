@@ -94,6 +94,13 @@ describe('collections', function () {
                 });
             });
 
+            it('get only uses metadata.guid if provided', function (done) {
+                // if metadata.guid not provided, previously it would fail
+                assert.equal(collection.get({ title: '1' }).title, '1');
+                assert.equal(c.title, '1');
+                done();
+            });
+
             it('object has inner1.get methods', function (done) {
                 requests.once('request', function (object) {
                     assert.deepEqual(object, {
