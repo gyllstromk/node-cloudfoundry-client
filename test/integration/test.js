@@ -273,6 +273,19 @@ describe('integration tests', function () {
             });
         });
 
+        it('get instances', function (done) {
+            client.apps.get(guid).instances.get(function (err, instances) {
+                assert.deepEqual(err, {
+                    message: {
+                        code: 170002,
+                        description: 'App has not finished staging'
+                    },
+                    statusCode: 400
+                });
+                done();
+            });
+        });
+
         it('get logs', function (done) {
             client.apps.get(guid).instances.get(0).logs.get(
                 function (err, logs) {
@@ -282,7 +295,15 @@ describe('integration tests', function () {
                 // check for the error we expect in the context of getting logs
                 // on a stopped app
 
-                assert.equal(err.message.code, 190001); // app is stopped
+                assert.deepEqual(err, {
+                    message: {
+                        code: 190001,
+                        description: 'File error: Request failed for app: ' +
+                                     'testApp path: logs as the app is in ' +
+                                     'stopped state.'
+                    },
+                    statusCode: 400
+                }); // app is stopped
                 done();
             });
         });
