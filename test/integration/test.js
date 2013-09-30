@@ -47,6 +47,20 @@ describe('integration tests', function () {
         });
     });
 
+    after(function (done) {
+        client.orgs.get({ name: orgName }, function (err, org) {
+            if (err) {
+                return done();
+            }
+
+            if (org.isEmpty()) {
+                return done();
+            }
+
+            client.orgs.delete(org.metadata.guid, done);
+        });
+    });
+
     describe('organizations', function () {
         var guid;
 
@@ -255,6 +269,20 @@ describe('integration tests', function () {
             client.apps.get(guid, function (err, app) {
                 assert.noError(err);
                 assert.equal(app.entity.name, appName);
+                done();
+            });
+        });
+
+        it('get logs', function (done) {
+            client.apps.get(guid).instances.get(0).logs.get(
+                function (err, logs) {
+
+                // TODO: can't really test logs until we actually upload and
+                // start apps, since logs will not be produced. Here we simply
+                // check for the error we expect in the context of getting logs
+                // on a stopped app
+
+                assert.equal(err.message.code, 190001); // app is stopped
                 done();
             });
         });
