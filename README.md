@@ -73,6 +73,7 @@ client.apps.get(guid, function (err, app) {
         console.log(util.format('summary for app %s is %s', guid, summary));
     });
 });
+```
 
 The drawback is that this requires 2 round trips to the server: first to get the app, then to get the summary via the summary endpoint.
 
