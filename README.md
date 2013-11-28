@@ -2,7 +2,9 @@
 
 Supports interaction with Cloudfoundry.
 
-Currently *alpha* but actively developed.
+Install:
+
+    npm install cloudfoundry-client
 
 Current endpoint support includes:
 
