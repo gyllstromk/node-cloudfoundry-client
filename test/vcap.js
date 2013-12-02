@@ -2,14 +2,24 @@ var assert = require('assert'),
     fs     = require('fs');
 
 describe('vcap client', function () {
+    /**
+     * Much of the client behavior is tested via the collections tests. Here we
+     * isolate the calls which are exceptional to the collection mode.
+     */
+
     var mockery,
         VcapClient;
 
-    var client;
+    var client,
+        _request;
 
     before(function () {
         mockery = require('mockery');
         mockery.enable({ useCleanCache: true, warnOnUnregistered: false });
+
+        mockery.registerMock('request', function (obj, callback) {
+            return _request(obj, callback);
+        });
     });
 
     after(function () {
@@ -28,7 +38,11 @@ describe('vcap client', function () {
             host = 'host',
             token = 'token';
 
-        mockery.registerMock('request', function (obj, callback) {
+        VcapClient = require('../lib/vcap');
+
+        client = new VcapClient({ host: host, token: token });
+
+        _request = function (obj, callback) {
             assert.deepEqual(obj, {
                 method: 'PUT',
                 headers: {
@@ -53,16 +67,33 @@ describe('vcap client', function () {
                     });
                 }
             };
-        });
+        };
 
-        VcapClient = require('../lib/vcap');
-
-        client = new VcapClient({ host: host, token: token });
 
         client.apps.upload(guid, fs.createReadStream('package.json'),
             function (err) {
 
             assert(! err, err);
+        });
+    });
+
+    it('app logs', function (done) {
+        _request = function (obj, callback) {
+            assert.deepEqual(obj, {
+                method:  'GET',
+                headers: {
+                    Authorization: 'bearer token'
+                },
+                url:     'http://host/v2/apps/a/instances/0/files/logs',
+                json:    true
+            });
+
+            callback(null, { statusCode: 200 });
+        };
+
+        client.apps.get('a').instances.get(0).logs.get(function (err, logs) {
+            assert(! err, err);
+            done();
         });
     });
 });

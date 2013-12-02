@@ -2,7 +2,9 @@
 
 Supports interaction with Cloudfoundry.
 
-Currently *alpha* but actively developed.
+Install:
+
+    npm install cloudfoundry-client
 
 Current endpoint support includes:
 
@@ -73,6 +75,7 @@ client.apps.get(guid, function (err, app) {
         console.log(util.format('summary for app %s is %s', guid, summary));
     });
 });
+```
 
 The drawback is that this requires 2 round trips to the server: first to get the app, then to get the summary via the summary endpoint.
 
@@ -93,6 +96,13 @@ client.apps.get(guid).serviceInstances.get(function (err, serviceInstances) {
     console.log(util.format('summary for app %s is %s', guid, summary));
 });
 ```
+
+Get logs:
+
+client.apps.get(guid).instances.get(0).logs.get(function (err, logs) {
+    // check err ..
+    console.log('logs for instance 0 are:', log);
+});
 
 # Roadmap
 

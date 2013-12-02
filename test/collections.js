@@ -94,6 +94,12 @@ describe('collections', function () {
                 });
             });
 
+            it('get only uses metadata.guid if provided', function (done) {
+                // if metadata.guid not provided, previously it would fail
+                assert.equal(collection.get({ title: '1' }).title, '1');
+                done();
+            });
+
             it('object has inner1.get methods', function (done) {
                 requests.once('request', function (object) {
                     assert.deepEqual(object, {
@@ -169,6 +175,49 @@ describe('collections', function () {
 
             collection.delete(1, true, function (err, result_) {
                 assert(! err, err);
+            });
+        });
+    });
+
+    describe('complex inner collection', function () {
+        before(function () {
+            collection = factory.create(collectionName, {
+                name: { type: 'string' }
+            }, [
+                    'inner1',
+                    {
+                        method: 'inner2',
+                        nested: [{
+                            method: 'inner2inner2'
+                        }],
+
+                        resultsMap: function (results) {
+                            results.each(function (each, index) {
+                                each.fake = index;
+                            });
+
+                            return results;
+                        }
+                    }
+                ]
+            );
+        });
+
+        it('get complex inner', function (done) {
+            requests.once('request', function (object) {
+                assert.deepEqual(object, {
+                    endpoint: 'collection/0/inner2',
+                    page: 1,
+                    method: 'GET'
+                });
+
+                done();
+            });
+
+            collection.get(0).inner2.get(function (err, results) {
+                assert(! err, err);
+                assert.equal(results[0].fake, 0); // proves resultsMap was
+                                                  // executed
             });
         });
     });
